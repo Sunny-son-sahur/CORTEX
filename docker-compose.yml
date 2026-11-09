@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  cortex:
+    build: .
+    container_name: cortex
+    stdin_open: true
+    tty: true
+    network_mode: host
+    volumes:
+      - ./loot:/opt/cortex/loot

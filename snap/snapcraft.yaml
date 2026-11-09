@@ -1,0 +1,23 @@
+name: cortex
+version: '1.0.0'
+summary: Menu-driven launcher for pentest tools
+description: |
+  CORTEX wraps common penetration-testing tools (nmap, sqlmap, hydra,
+  reaver, etc.) behind one category-based menu. It does not bundle the
+  tools themselves — install.sh handles those via apt.
+confinement: devmode
+base: core22
+
+apps:
+  cortex:
+    command: bin/python3 $SNAP/cortex.py
+    plugs:
+      - network
+      - network-bind
+
+parts:
+  cortex:
+    plugin: dump
+    source: .
+    stage-packages:
+      - python3

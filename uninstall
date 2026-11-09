@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+#
+# CORTEX uninstaller. Removes the packages install.sh added and the
+# ~/.cortex config/tools directory. Does NOT touch this repo's files.
+
+set -euo pipefail
+
+if ! command -v apt-get &>/dev/null; then
+    echo "[!] not an apt-based system — remove packages manually."
+    exit 1
+fi
+
+PACKAGES=(
+    nmap whois whatweb wpscan hydra ncrack cupp aircrack-ng reaver
+    pixiewps sqlmap commix metasploit-framework sslstrip tcpdump
+    gobuster arachni netcat-openbsd
+)
+
+echo "[*] this will remove: ${PACKAGES[*]}"
+read -rp "proceed? [y/N] " confirm
+if [[ "${confirm,,}" != "y" ]]; then
+    echo "[*] aborted."
+    exit 0
+fi
+
+sudo apt-get remove -y "${PACKAGES[@]}" || true
+sudo apt-get autoremove -y
+
+if [[ -d "$HOME/.cortex" ]]; then
+    read -rp "also delete $HOME/.cortex (wordlists/tools cache)? [y/N] " wipe
+    if [[ "${wipe,,}" == "y" ]]; then
+        rm -rf "$HOME/.cortex"
+    fi
+fi
+
+echo "[*] done."
