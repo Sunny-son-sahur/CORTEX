@@ -1,8 +1,9 @@
 # CORTEX
 
 A menu-driven launcher for pentest tools. Python 3, no shell=True, no
-piped-curl-into-bash installer. CORTEX doesn't reimplement nmap or sqlmap —
-it's a front end that calls the real tools on your system.
+piped-curl-into-bash installer by default — one-liners below are opt-in.
+CORTEX doesn't reimplement nmap or sqlmap; it's a front end that calls the
+real tools on your system.
 
 ## Menu
 
@@ -14,30 +15,58 @@ it's a front end that calls the real tools on your system.
 - Web Hacking — WPScan plugin enum, gobuster, brutex, arachni
 - Post Exploitation — netcat listener, weeman, shell checker
 
-## Install
+# Installation
 
-Debian/Ubuntu/Kali:
+## Linux
+
+[Linux](https://wikipedia.org/wiki/Linux)
 
 ```bash
-git clone https://github.com/<you>/cortex.git
-cd cortex
+git clone https://github.com/Sunny-son-sahur/CORTEX.git
+cd CORTEX
 chmod +x install.sh
 ./install.sh
 ```
 
-Read `install.sh` before running it. It's short on purpose.
+Or the one-liner:
 
-macOS / other platforms: apt isn't there, so run CORTEX inside a Debian or
-Kali Docker container or VM, or install each tool's package manually with
-brew/pip where it exists.
+```bash
+bash <(curl -sL https://tinyurl.com/CORTEX-DOWNLOAD)
+```
 
-### Docker
+## Termux (Android)
+
+Download [Termux](https://play.google.com/store/apps/details?id=com.termux)
+
+```bash
+pkg install git python -y
+git clone https://github.com/Sunny-son-sahur/CORTEX.git
+cd CORTEX
+chmod +x install.sh
+./install.sh
+```
+
+## Windows
+
+[Windows](https://wikipedia.org/wiki/Microsoft_Windows)
+
+CORTEX's installer is apt-based, so native Windows won't run it directly. Use one of:
+
+- [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) (Ubuntu) — then follow the Linux steps above
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) — see Docker Usage below
+- [Cygwin](https://www.cygwin.com/) if you want a bare bash-like layer (you'll still need Docker/WSL for apt)
+
+## Docker Usage
+
+### Dependencies
+
+[Docker](https://www.docker.com/) · [Docker Compose](https://docs.docker.com/compose/install/)
 
 ```bash
 docker-compose build
 docker-compose up -d
 docker-compose exec cortex python3 cortex.py
-docker-compose down   # tear it down
+docker-compose down   # destroys instance
 ```
 
 ## Run
@@ -46,18 +75,24 @@ docker-compose down   # tear it down
 python3 cortex.py
 ```
 
-## Updating / uninstalling
+Each menu item is tagged `[not installed]` if the underlying binary isn't on
+your PATH, so you know before you pick it.
+
+## Updating / Uninstalling
 
 ```bash
 ./update.sh      # git pull + re-run installer for new deps
 ./uninstall       # remove installed packages + ~/.cortex
 ```
 
+Or the one-liner to uninstall:
+
+```bash
+bash <(curl -sL https://tinyurl.com/CORTEX-UNDOWNLOAD)
+```
+
 See `docs/usage.md` for per-category notes and `CONTRIBUTING.md` for how to
 add a new tool wrapper.
-
-Each menu item is tagged `[not installed]` if the underlying binary isn't on
-your PATH, so you know before you pick it.
 
 ## Scope
 
