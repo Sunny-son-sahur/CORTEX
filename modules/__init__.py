@@ -47,7 +47,7 @@ def prompt(label: str) -> str:
 
 def print_menu(title: str, options: dict):
     print(f"\n{Colors.BOLD}{Colors.RED}== {title} =={Colors.RESET}")
-    for key, (desc, *_rest) in options.items():
+    for key, (desc, _fn, *_rest) in options.items():
         tag = ""
         bin_name = _rest[0] if _rest else None
         if bin_name and not check_installed(bin_name):
