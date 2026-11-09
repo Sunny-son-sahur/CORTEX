@@ -85,11 +85,17 @@ your PATH, so you know before you pick it.
 ./uninstall       # remove installed packages + ~/.cortex
 ```
 
-Or the one-liner to uninstall:
+Or the one-liners:
 
 ```bash
-bash <(curl -sL https://tinyurl.com/CORTEX-UNDOWNLOAD)
+bash <(curl -sL https://tinyurl.com/CORTEX-UPDATE)      # update
+bash <(curl -sL https://tinyurl.com/CORTEX-UNDOWNLOAD)  # uninstall
 ```
+
+Note: the update one-liner only works if you already have a cloned copy of
+this repo in your current directory — `update.sh` runs `git pull`, which
+needs an actual git checkout to pull into. If you ran it from somewhere
+else, it'll just tell you so instead of doing anything destructive.
 
 See `docs/usage.md` for per-category notes and `CONTRIBUTING.md` for how to
 add a new tool wrapper.
