@@ -73,12 +73,30 @@ else
 fi
 
 # ---- install CORTEX itself so it runs as a global command ----
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Hardcoded clone instead of copying from $SCRIPT_DIR: when this script is
+# run via `bash <(curl ...)`, there IS no real script path on disk to copy
+# from (it's a process-substitution fd). Cloning fresh works no matter how
+# this script was invoked — local file, piped, whatever.
+REPO_URL="https://github.com/Sunny-son-sahur/CORTEX.git"
+
+if ! command -v git &>/dev/null; then
+    echo "[*] git not found, installing it first..."
+    if [[ "$PM" == "apt" ]]; then
+        sudo apt-get install -y git
+    else
+        sudo dnf install -y git
+    fi
+fi
 
 echo ""
-echo "[*] installing CORTEX to $CORTEX_HOME ..."
-mkdir -p "$CORTEX_HOME"
-cp -r "$SCRIPT_DIR"/* "$CORTEX_HOME"/
+if [[ -d "$CORTEX_HOME/.git" ]]; then
+    echo "[*] $CORTEX_HOME already exists, pulling latest..."
+    git -C "$CORTEX_HOME" pull --ff-only
+else
+    echo "[*] cloning CORTEX to $CORTEX_HOME ..."
+    rm -rf "$CORTEX_HOME"
+    git clone --depth=1 "$REPO_URL" "$CORTEX_HOME"
+fi
 
 mkdir -p "$BIN_DIR"
 cat > "$LAUNCHER" << 'LAUNCHER_EOF'
